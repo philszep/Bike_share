@@ -6,6 +6,7 @@ The goal is to develop tools that will be hopefully provide insights into the ov
 
 This currently utilizes tools from the following sources:
 
-Tilemapbase - https://github.com/MatthewDaws/TileMapBase \n
-OpenStreetMap Data is "© OpenStreetMap contributors”, see http://www.openstreetmap.org/copyright \n
-mplleaflet - https://github.com/jwass/mplleaflet
+Tilemapbase - https://github.com/MatthewDaws/TileMapBase  
+OpenStreetMap Data is "© OpenStreetMap contributors”, see http://www.openstreetmap.org/copyright  
+mplleaflet - https://github.com/jwass/mplleaflet  
+
