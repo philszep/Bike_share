@@ -79,9 +79,16 @@ def get_stations_info(df, city = 'NYC'):
         Return: dataframe with index = 'station_id' and columns = ['station_name', 'lon','lat']
     """
     if city == 'NYC':
-        stations_info_df = df[['start station id','start station latitude', 'start station longitude','start station name']].set_index('start station id')
-        stations_info_df = stations_info_df.drop_duplicates()
-        stations_info_df.rename({'start station name': 'station name','start station longitude': 'lon', 'start station latitude': 'lat'},axis=1,inplace=True)
+        st_stations_info_df = df[['start station id','start station latitude', 'start station longitude','start station name']].set_index('start station id')
+        st_stations_info_df = st_stations_info_df.drop_duplicates()
+        st_stations_info_df.rename({'start station name': 'station name','start station longitude': 'lon', 'start station latitude': 'lat'},axis=1,inplace=True)
+
+        end_stations_info_df = df[['end station id','end station latitude', 'end station longitude','end station name']].set_index('end station id')
+        end_stations_info_df = end_stations_info_df.drop_duplicates()
+        end_stations_info_df.rename({'end station name': 'station name','end station longitude': 'lon', 'end station latitude': 'lat'},axis=1,inplace=True)
+
+        stations_info_df = pd.concat([st_stations_info_df,end_stations_info_df],axis = 0)
+        stations_info_df.drop_duplicates(inplace=True)
 
         #Remove stations outside of NYC 
         drops=stations_info_df[stations_info_df['lat']>45].index
