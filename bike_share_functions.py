@@ -28,6 +28,18 @@ def bike_clean_df(df, subs_only = True):
     clean_df['starttime'] = pd.to_datetime(clean_df['starttime'])
     clean_df['stoptime'] = pd.to_datetime(clean_df['stoptime'])
 
+    #Remove start stations outside of NYC
+    clean_df.drop(clean_df[clean_df['start station latitude'] > 41].index,inplace=True)
+    clean_df.drop(clean_df[clean_df['start station latitude'] < 40].index,inplace=True)
+    clean_df.drop(clean_df[clean_df['start station longitude']>-73.8].index,inplace=True)
+    clean_df.drop(clean_df[clean_df['start station longitude']<-74.1].index,inplace=True)
+
+    #Remove end stations outside of NYC
+    clean_df.drop(clean_df[clean_df['end station latitude'] > 41].index,inplace=True)
+    clean_df.drop(clean_df[clean_df['end station latitude'] < 40].index,inplace=True)
+    clean_df.drop(clean_df[clean_df['end station longitude']>73.8].index,inplace=True)
+    clean_df.drop(clean_df[clean_df['end station longitude']<-74.1].index,inplace=True)
+
     return clean_df
     
 
@@ -91,8 +103,15 @@ def get_stations_info(df, city = 'NYC'):
         stations_info_df.drop_duplicates(inplace=True)
 
         #Remove stations outside of NYC 
-        drops=stations_info_df[stations_info_df['lat']>45].index
+        drops=stations_info_df[stations_info_df['lat']>41].index
         stations_info_df.drop(drops,inplace=True)
+
+        lat_Max_df = stations_info_df[stations_info_df['lat']<41]
+        lat_Min_df = stations_info_df[stations_info_df['lat']>40]
+        lon_Max_df = stations_info_df[stations_info_df['lon']<-73.8]
+        lon_Min_df = stations_info_df[stations_info_df['lon']>-74.1]
+        stations_info_df = pd.concat([lat_Max_df,lat_Min_df,lon_Max_df,lon_Min_df],axis=0).drop_duplicates()
+
 
     return stations_info_df
 
