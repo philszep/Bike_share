@@ -31,7 +31,9 @@ To do:
 
 This currently utilizes tools from the following sources:
 
-Tilemapbase - https://github.com/MatthewDaws/TileMapBase  
-OpenStreetMap Data is "© OpenStreetMap contributors”, see http://www.openstreetmap.org/copyright  
-mplleaflet - https://github.com/jwass/mplleaflet  
+* Tilemapbase - https://github.com/MatthewDaws/TileMapBase  
+* OpenStreetMap Data is "© OpenStreetMap contributors”, see http://www.openstreetmap.org/copyright  
+* mplleaflet - https://github.com/jwass/mplleaflet  
+* NYC citibike data - https://www.citibikenyc.com/system-data
+* Chicago Divvy bike share data - https://www.divvybikes.com/system-data
 
