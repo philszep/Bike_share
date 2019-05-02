@@ -12,14 +12,17 @@ Notebooks:
 * `Winter_2018.ipynb`: Exploratory trip analysis with Winter (January, February, March) 2018 data.   
 * `StationGIFs_NYC_Winter2018.ipynb`: Sample notebook for creating station usage GIFs in `./Images/` 
 
-* `Summer_2018_weekday_clustering.ipynb`: K-means clustering on stations using data from the Summer 2018 dataset -- clumps stations into high/low use stations and morning/evening pickup stations, relevant for commuters  
-* `Summer_2018_weekend_clustering.ipynb`: K-means clustering on stations using data from the Summer 2018 dataset -- clumps stations into high/low use stations and daytime/evening pickup stations, likely relevant for recreational bikers  
-* `Winter_2018_weekday_clustering.ipynb`: K-means clustering on stations using data from the Winter 2018 dataset -- similar to summer results  
-* `Winter_2018_weekday_clustering.ipynb`: K-means clustering on stations using data from the Winter 2018 dataset -- similar to summer results  
+* `./Notebooks/clustering`: Folder containing several notebooks that cluster stations into different usage categories. 
+
+    * `Summer_2018_weekday_clustering.ipynb`: K-means clustering on stations using data from the Summer 2018 dataset -- clumps stations into high/low use stations and morning/evening pickup stations, relevant for commuters  
+    * `Summer_2018_weekend_clustering.ipynb`: K-means clustering on stations using data from the Summer 2018 dataset -- clumps stations into high/low use stations and daytime/evening pickup stations, likely relevant for recreational bikers  
+    * `Winter_2018_weekday_clustering.ipynb`: same as summer notebook but for winter dataset 
+    * `Winter_2018_weekday_clustering.ipynb`: same as summer notebook but for winter dataset 
+
+* `./Notebooks/networkanalysis`: folder containing several notebooks that use networkx library to analyze aspects of the bikeshare system from the perspective of network theory. Used to create maps with top trips in `./Images`, see for example `Winter_2018_WD_trips.gif`.
+    
 
 * `top_trips_Chicago_Q4.ipynb`: Preliminary work on plotting commons trips for data from Chicago
-* `Clustering_exploration.ipynb`: exploratory clustering on individual trips
-* `Winter_2018_station_types.ipynb` and `Winter_2018_trip_types.ipynb`: some crude attempts at classifying stations and trips
 
 To do: 
 

@@ -1,34 +1,46 @@
 import pandas as pd
 import numpy as np
 
-def bike_clean_df(df, subs_only = True):
+def bike_clean_df(df, subs_only = True, max_tripdur= 2):
     """Cleans bikeshare dataframe. 
     Removes NaN
     Filter out non-subscribers
-    Drops trips longer than two hours
+    Drops trips longer than max_tripdur (in hours)
     Converts station ids to ints
     Converts datetime strings to datetime objects
     """
+
+    len_df = len(df)
     #Drop NaN values
     df.dropna(inplace=True)
-    
+    print('Dropped {} NaN entries'.format(len_df-len(df)))
+
+
     #Restrict to subscribers    
     if subs_only:
         clean_df = df[df['usertype'] == 'Subscriber'].copy() # Careful with copy when DF contains mutable objects like lists....
         clean_df.drop
+        print('Dropped an additional {} non-subscriber entries'.format(len(df)-len(clean_df)))
     
+    len_clean_df = len(clean_df)
     #Drop trips longer than two hours
-    clean_df = clean_df[clean_df['tripduration'] < 7200]
+    clean_df = clean_df[clean_df['tripduration'] < max_tripdur*3600]
+    print('Dropped an additional {} entries with trips longer than {} hours'.format(len_clean_df-len(clean_df),max_tripdur))
 
     #Convert station ids to integers
     clean_df['start station id']=clean_df['start station id'].astype(int)
     clean_df['end station id']=clean_df['end station id'].astype(int)
+    print('Changed type of start station id and end station id to integer')
 
     #Convert to datetime
     clean_df['starttime'] = pd.to_datetime(clean_df['starttime'])
     clean_df['stoptime'] = pd.to_datetime(clean_df['stoptime'])
+    print('Changed type of starttime and stoptime to datetime')
+
+    len_clean_df = len(clean_df)
 
     #Remove start stations outside of NYC
+    
     clean_df.drop(clean_df[clean_df['start station latitude'] > 41].index,inplace=True)
     clean_df.drop(clean_df[clean_df['start station latitude'] < 40].index,inplace=True)
     clean_df.drop(clean_df[clean_df['start station longitude']>-73.8].index,inplace=True)
@@ -40,6 +52,8 @@ def bike_clean_df(df, subs_only = True):
     clean_df.drop(clean_df[clean_df['end station longitude']>73.8].index,inplace=True)
     clean_df.drop(clean_df[clean_df['end station longitude']<-74.1].index,inplace=True)
 
+    print('Dropped an additional {} trips with start/end stations outside NYC'.format(len_clean_df - len(clean_df)))
+
     return clean_df
     
 
@@ -48,9 +62,9 @@ def get_trip_info(df):
     Drops cols: ['start station name', 'start station latitude', 'start station longitude', 'end station name', 'end station latitude', 'end station longitude']
     Adds cols: ['start_day', 'stop_day','pickup_hour','dropoff_hour', 'age', Trip_Type','start_end_station']
     """
-    trip_info_df = df.copy()
+    trip_info_df = df.copy() #Careful wity .copy() of dataframe if entries include lists!
  
-    trip_info_df.drop(columns = ['start station name', 'start station latitude', 'start station longitude', 'end station name', 'end station latitude', 'end station longitude'],inplace=True)
+    trip_info_df.drop(columns = ['usertype','start station name', 'start station latitude', 'start station longitude', 'end station name', 'end station latitude', 'end station longitude'],inplace=True)
 
     
     #Get weekday labels and create column
@@ -70,7 +84,7 @@ def get_trip_info(df):
     trip_info_df = trip_info_df.assign(Trip_Type =
     np.select(
         condlist=[trip_info_df['start_day'] == 5, trip_info_df['start_day']==6, trip_info_df['pickup_hour'] < 6, trip_info_df['pickup_hour'] <10, trip_info_df['pickup_hour'] < 16, trip_info_df['pickup_hour']<20, trip_info_df['pickup_hour'] < 24], 
-        choicelist=['Weekend','Weekend','Late Night','Commuter','Daytime Errand','Commuter','Late Night'], 
+        choicelist=['Weekend','Weekend','Late Night','Commuter','Midday','Commuter','Late Night'], 
         default='Other'))
 
     #Create column of start-end station pairs
@@ -102,7 +116,7 @@ def get_stations_info(df, city = 'NYC'):
         stations_info_df = pd.concat([st_stations_info_df,end_stations_info_df],axis = 0)
         stations_info_df.drop_duplicates(inplace=True)
 
-        #Remove stations outside of NYC 
+        #Remove stations outside of NYC (in case they haven't already been removed)
         drops=stations_info_df[stations_info_df['lat']>41].index
         stations_info_df.drop(drops,inplace=True)
 
