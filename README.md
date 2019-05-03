@@ -2,7 +2,14 @@
 
 This is a project that I am working on that analyzes bike share data for the city of New York, and in the future other similar large scale bike share systems. 
 
-The goal is to develop tools that will be hopefully provide insights into the overall usage of the bike share system as well as the quality of cycling infrastructure within the city. It may also be interesting for people interested in buying a bikeshare subscription or wanting to incorporate more biking into their daily lives.
+This is motivated by bike culture in the Netherlands, where biking is central to local transportation. The goal here is to develop insights and tools that can help make biking in the US _easy, efficient and safe._ 
+
+The tools are intended to be useful to several audiences. The overarching goals for various audiences are:
+
+* Individual bikers: How can we make biking more convenient and safe for individuals? 
+* City planners: What insights and tools can we provide for cities in order for them to best focus resources into making biking an efficient and safe method of transportation within the city?
+* Bike share operators: How best to optimize bike share systems in order to facilitate easy and efficient use of bikes for as many people as possible?
+
 
 **Contents:** 
 
@@ -27,7 +34,7 @@ Notebooks:
 To do: 
 
 * Use clustering data as classification of stations (as in `Summer_2018_weekday_clustering.ipynb`, for example), combined with station feature data to create a classifier for "bikeable" neighborhoods. (Work in progress...) 
-* Next step: _accummulate feature data_
+* Next step: _accummulate feature data_ 
 
 
 
