@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 
-def bike_clean_df(df, subs_only = True, max_tripdur= 2):
+def bike_clean_df(df, subs_only = True, cust_only=False,max_tripdur= 2):
     """Cleans bikeshare dataframe. 
     Removes NaN
-    Filter out non-subscribers
+    Filter out non-subscribers (if subs_only = True)
+    Filter out subscribers (if subs_only = False and cust_only = True)
     Drops trips longer than max_tripdur (in hours)
     Converts station ids to ints
     Converts datetime strings to datetime objects
@@ -18,18 +19,30 @@ def bike_clean_df(df, subs_only = True, max_tripdur= 2):
 
     #Restrict to subscribers    
     if subs_only:
+        print('Keeping only subscribers')
         clean_df = df[df['usertype'] == 'Subscriber'].copy() # Careful with copy when DF contains mutable objects like lists....
-        clean_df.drop
+        
         print('Dropped an additional {} non-subscriber entries'.format(len(df)-len(clean_df)))
     
+    elif cust_only:
+    #Restrict to subscribers   
+        print('Keeping only Customers') 
+        clean_df = df[df['usertype'] == 'Customer'].copy() # Careful with copy when DF contains mutable objects like lists....
+        print('Dropped {} subscriber entries'.format(len(df)-len(clean_df)))
+    else:
+        clean_df = df
+    
+    clean_df.loc[clean_df['usertype'] =='Customer','usertype'] = 0
+    clean_df.loc[clean_df['usertype'] =='Subscriber','usertype'] = 1
+
     len_clean_df = len(clean_df)
     #Drop trips longer than two hours
     clean_df = clean_df[clean_df['tripduration'] < max_tripdur*3600]
     print('Dropped an additional {} entries with trips longer than {} hours'.format(len_clean_df-len(clean_df),max_tripdur))
 
     #Convert station ids to integers
-    clean_df['start station id']=clean_df['start station id'].astype(int)
-    clean_df['end station id']=clean_df['end station id'].astype(int)
+    clean_df.loc[:,'start station id']=clean_df['start station id'].astype(int,copy=False)
+    clean_df.loc[:,'end station id']=clean_df['end station id'].astype(int,copy=False)
     print('Changed type of start station id and end station id to integer')
 
     #Convert to datetime
@@ -62,7 +75,7 @@ def get_trip_info(df):
     Drops cols: ['start station name', 'start station latitude', 'start station longitude', 'end station name', 'end station latitude', 'end station longitude']
     Adds cols: ['start_day', 'stop_day','pickup_hour','dropoff_hour', 'age', Trip_Type','start_end_station']
     """
-    trip_info_df = df.copy() #Careful wity .copy() of dataframe if entries include lists!
+    trip_info_df = df.copy() #Careful with .copy() of dataframe if entries include lists!
  
     trip_info_df.drop(columns = ['usertype','start station name', 'start station latitude', 'start station longitude', 'end station name', 'end station latitude', 'end station longitude'],inplace=True)
 
@@ -125,7 +138,7 @@ def get_stations_info(df, city = 'NYC'):
         lon_Max_df = stations_info_df[stations_info_df['lon']<-73.8]
         lon_Min_df = stations_info_df[stations_info_df['lon']>-74.1]
         stations_info_df = pd.concat([lat_Max_df,lat_Min_df,lon_Max_df,lon_Min_df],axis=0).drop_duplicates()
-
+        stations_info_df.rename_axis('station_id',inplace=True)
 
     return stations_info_df
 

@@ -7,7 +7,7 @@ This is motivated by bike culture in the Netherlands, where biking is central to
 The tools are intended to be useful to several audiences. The overarching goals for various audiences are:
 
 * Individual bikers: How can we make biking more convenient and safe for individuals? 
-* City planners: What insights and tools can we provide for cities in order for them to best focus resources into making biking an efficient and safe method of transportation within the city?
+* City planners: What insights and tools can we provide for cities in order for them to best focus resources into infrastructure that makes biking an efficient and safe method of transportation within the city?
 * Bike share operators: How best to optimize bike share systems in order to facilitate easy and efficient use of bikes for as many people as possible?
 
 
