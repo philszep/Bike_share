@@ -2,6 +2,7 @@
 
 This is a project that I am working on that analyzes bike share data for the city of New York, and in the future other similar large scale bike share systems. 
 
+
 This is motivated by bike culture in the Netherlands, where biking is central to local transportation. The goal here is to develop insights and tools that can help make biking in the US _easy, efficient and safe._ 
 
 The tools are intended to be useful to several audiences. The overarching goals for various audiences are:
